@@ -1,12 +1,16 @@
 
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Search, ShoppingCart, Menu, User, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { authState } = useAuth();
+  const navigate = useNavigate();
+  const { user } = authState;
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm">
@@ -43,10 +47,25 @@ const Header = () => {
 
           {/* Right navigation */}
           <div className="flex items-center gap-4">
-            <Button variant="ghost" className="hidden md:flex gap-1 text-arariboia-dark hover:text-arariboia-green">
-              <User size={20} />
-              <span className="hidden lg:inline">Entrar</span>
-            </Button>
+            {user ? (
+              <Button 
+                variant="ghost" 
+                className="hidden md:flex gap-1 text-arariboia-dark hover:text-arariboia-green"
+                onClick={() => navigate('/dashboard')}
+              >
+                <User size={20} />
+                <span className="hidden lg:inline">{user.name || 'Minha Conta'}</span>
+              </Button>
+            ) : (
+              <Button 
+                variant="ghost" 
+                className="hidden md:flex gap-1 text-arariboia-dark hover:text-arariboia-green"
+                onClick={() => navigate('/login')}
+              >
+                <User size={20} />
+                <span className="hidden lg:inline">Entrar</span>
+              </Button>
+            )}
 
             <Button variant="ghost" className="relative text-arariboia-dark hover:text-arariboia-green">
               <ShoppingCart size={20} />
@@ -92,8 +111,14 @@ const Header = () => {
         {isMobileMenuOpen && (
           <div className="md:hidden py-2 border-t">
             <nav className="flex flex-col">
-              <Link to="/entrar" className="py-2 px-4 hover:bg-gray-100">Entrar ou cadastrar</Link>
-              <Link to="/pedidos" className="py-2 px-4 hover:bg-gray-100">Meus pedidos</Link>
+              {user ? (
+                <>
+                  <Link to="/dashboard" className="py-2 px-4 hover:bg-gray-100">Dashboard</Link>
+                  <Link to="/dashboard/pedidos" className="py-2 px-4 hover:bg-gray-100">Meus pedidos</Link>
+                </>
+              ) : (
+                <Link to="/login" className="py-2 px-4 hover:bg-gray-100">Entrar ou cadastrar</Link>
+              )}
               <Link to="/favoritos" className="py-2 px-4 hover:bg-gray-100">Favoritos</Link>
             </nav>
           </div>
