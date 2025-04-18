@@ -1,105 +1,38 @@
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import './styles/theme.css';
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 215 5% 10%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 215 5% 10%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 5% 10%;
-
-    --primary: 144 45% 37%;
-    --primary-foreground: 0 0% 98%;
-
-    --secondary: 20 34% 20%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 144 45% 94%;
-    --accent-foreground: 144 45% 25%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 144 45% 37%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 144 45% 37%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 144 45% 37%;
-  }
-
-  .dark {
-    --background: 215 5% 10%;
-    --foreground: 210 40% 98%;
-
-    --card: 215 5% 10%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 215 5% 10%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 144 45% 37%;
-    --primary-foreground: 0 0% 98%;
-
-    --secondary: 20 34% 20%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 144 45% 15%;
-    --accent-foreground: 144 45% 80%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 144 45% 37%;
-  }
+:root {
+  --arariboia-brown: #432c22;
+  --arariboia-green: #338a4f;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
+html, body {
+  scroll-behavior: smooth;
 }
 
-@layer components {
-  .product-card {
-    @apply bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:shadow-lg hover:-translate-y-1;
-  }
-  
-  .category-button {
-    @apply py-2 px-4 rounded-full text-sm font-medium transition-colors;
-  }
-  
-  .category-button.active {
-    @apply bg-arariboia-green text-white;
-  }
-  
-  .category-button:not(.active) {
-    @apply bg-gray-100 text-arariboia-dark hover:bg-gray-200;
-  }
+.dark .bg-gray-50 {
+  background-color: #1a1a1a;
+}
+
+.dark .text-arariboia-brown {
+  color: #8ee0aa;
+}
+
+.dark .bg-arariboia-brown {
+  background-color: #1a4d2e;
+}
+
+.dark .border-arariboia-brown {
+  border-color: #1a4d2e;
+}
+
+.dark .text-muted-foreground {
+  color: hsl(var(--muted-foreground));
+}
+
+.dark .hover\:bg-arariboia-brown\/90:hover {
+  background-color: rgba(26, 77, 46, 0.9);
 }
