@@ -3,9 +3,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import RoleBasedRoute from "@/components/auth/RoleBasedRoute";
 
 // Páginas
 import Index from "./pages/Index";
@@ -22,6 +23,16 @@ import SignUpPage from "./pages/auth/SignUpPage";
 import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
 import UpdatePasswordPage from "./pages/auth/UpdatePasswordPage";
 import UnauthorizedPage from "./pages/auth/UnauthorizedPage";
+
+// Novas páginas para dashboard do usuário
+import UserDashboardLayout from "./components/user/UserDashboardLayout";
+import UserDashboardIndex from "./pages/user/UserDashboardIndex";
+import UserPedidosPage from "./pages/user/UserPedidosPage";
+
+// Novas páginas para dashboard do administrador
+import AdminDashboardLayout from "./components/admin/AdminDashboardLayout";
+import AdminDashboardIndex from "./pages/admin/AdminDashboardIndex";
+import LojistasPage from "./pages/admin/LojistasPage";
 
 const queryClient = new QueryClient();
 
@@ -42,7 +53,7 @@ const App = () => (
             <Route path="/update-password" element={<UpdatePasswordPage />} />
             <Route path="/unauthorized" element={<UnauthorizedPage />} />
             
-            {/* Dashboard e suas páginas internas (protegidas) */}
+            {/* Dashboard original (mantido para compatibilidade) */}
             <Route 
               path="/dashboard" 
               element={
@@ -56,6 +67,54 @@ const App = () => (
               <Route path="pedidos" element={<PedidosPage />} />
               <Route path="lojas" element={<LojasPage />} />
             </Route>
+            
+            {/* Dashboard do Usuário (Cliente) */}
+            <Route 
+              path="/user" 
+              element={
+                <RoleBasedRoute allowedRoles={['cliente', 'admin']}>
+                  <UserDashboardLayout />
+                </RoleBasedRoute>
+              }
+            >
+              <Route index element={<UserDashboardIndex />} />
+              <Route path="pedidos" element={<UserPedidosPage />} />
+              <Route path="chat" element={<div>Em breve: Chat</div>} />
+              <Route path="cupons" element={<div>Em breve: Meus Cupons</div>} />
+              <Route path="favoritos" element={<div>Em breve: Meus Favoritos</div>} />
+              <Route path="pagamento" element={<div>Em breve: Pagamento</div>} />
+              <Route path="fidelidade" element={<div>Em breve: Programa de Fidelidade</div>} />
+              <Route path="ajuda" element={<div>Em breve: Ajuda</div>} />
+              <Route path="meus-dados" element={<div>Em breve: Meus Dados</div>} />
+              <Route path="seguranca" element={<div>Em breve: Segurança</div>} />
+              <Route path="cartao" element={<div>Em breve: Cartão Arariboia</div>} />
+              <Route path="whatsapp" element={<div>Em breve: Meu WhatsApp</div>} />
+            </Route>
+            
+            {/* Dashboard do Administrador */}
+            <Route 
+              path="/admin" 
+              element={
+                <RoleBasedRoute allowedRoles={['admin']}>
+                  <AdminDashboardLayout />
+                </RoleBasedRoute>
+              }
+            >
+              <Route index element={<AdminDashboardIndex />} />
+              <Route path="lojistas" element={<LojistasPage />} />
+              <Route path="pedidos" element={<div>Em breve: Gestão de Pedidos</div>} />
+              <Route path="cupons" element={<div>Em breve: Gestão de Cupons</div>} />
+              <Route path="produtos" element={<div>Em breve: Gestão de Produtos</div>} />
+              <Route path="pagamentos" element={<div>Em breve: Gestão de Pagamentos</div>} />
+              <Route path="notificacoes" element={<div>Em breve: Notificações</div>} />
+              <Route path="whatsapp" element={<div>Em breve: Gestão de WhatsApp</div>} />
+              <Route path="relatorios" element={<div>Em breve: Relatórios</div>} />
+              <Route path="controles" element={<div>Em breve: Controles Master</div>} />
+            </Route>
+            
+            {/* Redirecionamentos */}
+            <Route path="/admin/dashboard" element={<Navigate to="/admin" replace />} />
+            <Route path="/user/dashboard" element={<Navigate to="/user" replace />} />
             
             <Route path="*" element={<NotFound />} />
           </Routes>

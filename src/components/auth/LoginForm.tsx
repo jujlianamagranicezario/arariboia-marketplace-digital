@@ -1,10 +1,10 @@
 
-import React from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Link, useNavigate } from 'react-router-dom';
+import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -14,18 +14,18 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { useAuth } from '@/contexts/AuthContext';
 
 const loginSchema = z.object({
-  email: z.string().email({ message: 'Email inválido' }),
-  password: z.string().min(6, { message: 'A senha deve ter pelo menos 6 caracteres' }),
+  email: z.string().email('Digite um email válido'),
+  password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 const LoginForm = () => {
-  const { signIn } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const { signIn, authState } = useAuth();
   const navigate = useNavigate();
 
   const form = useForm<LoginFormValues>({
@@ -36,80 +36,95 @@ const LoginForm = () => {
     },
   });
 
-  const onSubmit = async (values: LoginFormValues) => {
-    const { error } = await signIn(values.email, values.password);
-    if (!error) {
-      navigate('/dashboard');
+  const onSubmit = async (data: LoginFormValues) => {
+    setLoading(true);
+    try {
+      const result = await signIn(data.email, data.password);
+      
+      if (!result.error) {
+        // Redirecionar baseado na role do usuário
+        const { user } = authState;
+        
+        if (user?.role === 'admin') {
+          navigate('/admin');
+        } else if (user?.role === 'lojista') {
+          navigate('/dashboard'); // Lojista usa o dashboard original
+        } else {
+          navigate('/user'); // Cliente usa o dashboard de usuário
+        }
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <Card className="max-w-md w-full mx-auto">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold text-arariboia-brown">Login</CardTitle>
-        <CardDescription>
-          Entre com seu email e senha para acessar sua conta
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="seu@email.com" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Senha</FormLabel>
-                  <FormControl>
-                    <Input type="password" placeholder="******" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button 
-              type="submit" 
-              className="w-full bg-arariboia-brown hover:bg-arariboia-brown/90"
-              disabled={form.formState.isSubmitting}
-            >
-              {form.formState.isSubmitting ? 'Entrando...' : 'Entrar'}
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-      <CardFooter className="flex flex-col space-y-2">
-        <Button 
-          variant="link" 
-          className="text-arariboia-brown"
-          onClick={() => navigate('/reset-password')}
-        >
-          Esqueceu sua senha?
-        </Button>
-        <div className="text-sm text-muted-foreground">
-          Não tem uma conta?{' '}
-          <Button 
-            variant="link" 
-            className="p-0 text-arariboia-green"
-            onClick={() => navigate('/signup')}
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input 
+                  type="email" 
+                  placeholder="seu@email.com" 
+                  {...field} 
+                  disabled={loading}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Senha</FormLabel>
+              <FormControl>
+                <Input 
+                  type="password" 
+                  placeholder="******" 
+                  {...field} 
+                  disabled={loading}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="flex justify-between items-center mt-2">
+          <Link 
+            to="/reset-password" 
+            className="text-sm text-arariboia-green hover:underline"
           >
-            Cadastre-se
-          </Button>
+            Esqueceu a senha?
+          </Link>
         </div>
-      </CardFooter>
-    </Card>
+        <Button 
+          type="submit" 
+          className="w-full bg-arariboia-brown hover:bg-arariboia-brown/90"
+          disabled={loading}
+        >
+          {loading ? 'Entrando...' : 'Entrar'}
+        </Button>
+        <div className="text-center mt-4">
+          <p className="text-sm text-gray-600">
+            Não tem uma conta?{' '}
+            <Link 
+              to="/signup" 
+              className="text-arariboia-green hover:underline"
+            >
+              Cadastre-se
+            </Link>
+          </p>
+        </div>
+      </form>
+    </Form>
   );
 };
 
