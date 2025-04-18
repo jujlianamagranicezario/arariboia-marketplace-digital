@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,11 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				arariboia: {
+					green: '#338a4f',
+					brown: '#432c22',
+					dark: '#1a1a1a'
 				}
 			},
 			borderRadius: {
