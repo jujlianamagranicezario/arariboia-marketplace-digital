@@ -1,13 +1,17 @@
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '@/components/Header';
 import CategoryBar from '@/components/CategoryBar';
 import FeatureBanner from '@/components/FeatureBanner';
 import FeaturedStores from '@/components/FeaturedStores';
 import FeaturedProducts from '@/components/FeaturedProducts';
 import Footer from '@/components/Footer';
+import { Button } from '@/components/ui/button';
 
 const Index = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -29,12 +33,20 @@ const Index = () => {
                   e comece a vender em minutos!
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
-                  <button className="bg-arariboia-brown hover:bg-arariboia-brown/90 text-white py-3 px-6 rounded-md font-medium">
+                  <Button 
+                    variant="default"
+                    className="bg-arariboia-brown hover:bg-arariboia-brown/90"
+                    onClick={() => navigate('/dashboard')}
+                  >
                     Criar minha loja
-                  </button>
-                  <button className="bg-transparent hover:bg-arariboia-brown/10 text-arariboia-brown py-3 px-6 rounded-md font-medium border border-arariboia-brown">
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    className="border-arariboia-brown text-arariboia-brown hover:bg-arariboia-brown/10"
+                    onClick={() => navigate('/dashboard')}
+                  >
                     Saiba mais
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
