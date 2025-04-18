@@ -126,15 +126,28 @@ export function useSupabaseStorage(bucket: string) {
 
       const filePath = path ? `${path}/${file.name}` : file.name;
       
+      // Create a custom handler for upload progress
+      let uploadProgress = 0;
+      
+      // Set up an interval to simulate progress since onUploadProgress isn't directly supported
+      const progressInterval = setInterval(() => {
+        if (uploadProgress < 95) {
+          uploadProgress += 5;
+          setProgress(uploadProgress);
+        }
+      }, 100);
+      
+      // Perform the upload without the onUploadProgress option
       const { data, error: uploadError } = await supabase.storage
         .from(bucket)
         .upload(filePath, file, {
           upsert: options?.upsert ?? false,
           cacheControl: options?.cacheControl ?? '3600',
-          onUploadProgress: (progress) => {
-            setProgress(Math.round((progress.loaded / progress.total) * 100));
-          },
         });
+
+      // Clear the interval once upload is complete
+      clearInterval(progressInterval);
+      setProgress(100);
 
       if (uploadError) throw uploadError;
 
