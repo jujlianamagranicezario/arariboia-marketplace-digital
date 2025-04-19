@@ -14,19 +14,116 @@ interface Store {
   category: string;
 }
 
+// Sample stores data
+const sampleStores: Record<string, Store[]> = {
+  restaurantes: [
+    {
+      id: "1",
+      name: "Sabor da Serra",
+      description: "Comida caseira tradicional com sabor único. Especialidades em feijoada, marmita fitness e prato executivo.",
+      image_url: null,
+      category: "restaurantes"
+    }
+  ],
+  farmacia: [
+    {
+      id: "2",
+      name: "FarmaVida",
+      description: "Farmácia completa com medicamentos, produtos de higiene e beleza.",
+      image_url: null,
+      category: "farmacia"
+    }
+  ],
+  mercado: [
+    {
+      id: "3",
+      name: "Mercado Bom Preço",
+      description: "Supermercado completo com os melhores preços da região.",
+      image_url: null,
+      category: "mercado"
+    }
+  ],
+  pet: [
+    {
+      id: "4",
+      name: "Pet Shop Amigo Fiel",
+      description: "Tudo para seu pet com muito amor e carinho.",
+      image_url: null,
+      category: "pet"
+    }
+  ],
+  padaria: [
+    {
+      id: "5",
+      name: "Padaria Sabor do Pão",
+      description: "Pães fresquinhos e confeitaria artesanal.",
+      image_url: null,
+      category: "padaria"
+    }
+  ],
+  bebidas: [
+    {
+      id: "6",
+      name: "Adega do Vinho",
+      description: "As melhores bebidas nacionais e importadas.",
+      image_url: null,
+      category: "bebidas"
+    }
+  ],
+  conveniencia: [
+    {
+      id: "7",
+      name: "24h Conveniência",
+      description: "Sua loja de conveniência 24 horas.",
+      image_url: null,
+      category: "conveniencia"
+    }
+  ],
+  express: [
+    {
+      id: "8",
+      name: "Express Delivery",
+      description: "Entregas rápidas para toda cidade.",
+      image_url: null,
+      category: "express"
+    }
+  ],
+  roupas: [
+    {
+      id: "9",
+      name: "Moda Elegante",
+      description: "As últimas tendências da moda.",
+      image_url: null,
+      category: "roupas"
+    }
+  ],
+  eletronicos: [
+    {
+      id: "10",
+      name: "TechStore",
+      description: "Os melhores produtos de tecnologia.",
+      image_url: null,
+      category: "eletronicos"
+    }
+  ],
+  servicos: [
+    {
+      id: "11",
+      name: "MultiServiços",
+      description: "Diversos serviços para sua comodidade.",
+      image_url: null,
+      category: "servicos"
+    }
+  ]
+};
+
 const StoreList = () => {
   const { category } = useParams();
   const categoryTitle = category?.charAt(0).toUpperCase() + category?.slice(1);
 
-  // Fetch stores filtered by category
-  const { data: stores, isLoading } = useSupabaseQuery<Store[]>(
-    'stores',
-    ['stores', category],
-    {
-      filter: [{ column: 'category', value: category }],
-      orderBy: { column: 'name', ascending: true },
-    }
-  );
+  // Use sample data for now
+  const stores = category ? sampleStores[category] : [];
+  const isLoading = false;
 
   if (isLoading) {
     return (

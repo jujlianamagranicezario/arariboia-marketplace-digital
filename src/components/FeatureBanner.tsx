@@ -1,8 +1,10 @@
-
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from 'react-router-dom';
 
 const FeatureBanner = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-gradient-to-r from-arariboia-green to-green-600 text-white">
       <div className="container mx-auto px-4 py-8 md:py-12">
@@ -15,7 +17,10 @@ const FeatureBanner = () => {
               Crie sua loja virtual gratuita e comece a vender hoje mesmo.
               Gestão simples, pagamentos integrados e marketing digital.
             </p>
-            <Button className="bg-white text-arariboia-green hover:bg-white/90 hover:text-arariboia-green/90">
+            <Button 
+              className="bg-white text-arariboia-green hover:bg-white/90 hover:text-arariboia-green/90"
+              onClick={() => navigate('/signup')}
+            >
               Começar agora
               <ArrowRight size={16} className="ml-2" />
             </Button>
