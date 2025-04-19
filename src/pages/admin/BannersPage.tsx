@@ -318,7 +318,7 @@ const BannersPage = () => {
               <Button 
                 className="bg-arariboia-green hover:bg-arariboia-green/90 text-white"
                 onClick={handleAddBanner}
-                disabled={inserting || uploading}
+                disabled={uploading || insertBanner.isPending}
               >
                 {uploading ? `Enviando... ${progress}%` : "Salvar"}
               </Button>
@@ -520,7 +520,7 @@ const BannersPage = () => {
             <Button 
               className="bg-arariboia-green hover:bg-arariboia-green/90 text-white"
               onClick={handleUpdateBanner}
-              disabled={updating || uploading}
+              disabled={uploading || updateBanner.isPending}
             >
               {uploading ? `Enviando... ${progress}%` : "Atualizar"}
             </Button>

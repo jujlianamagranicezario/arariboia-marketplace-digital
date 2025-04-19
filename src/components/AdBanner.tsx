@@ -106,11 +106,69 @@ const AdBanner = () => {
     ) : null;
   }
 
-  // If we have banners to display
+  // If we have banners to display or we want to show a demo banner when Supabase is not connected
   const currentBanner = banners && banners[currentBannerIndex];
   
-  if (!currentBanner) return null;
-
+  // If no banners from database but need to show a demo banner
+  if (!currentBanner) {
+    // Demo banner for showcase purposes
+    const demoBanner = {
+      id: 0,
+      title: "Promoção Especial de Lançamento",
+      description: "50% de desconto em todos os produtos nas lojas participantes. Aproveite esta oferta por tempo limitado!",
+      image_url: "https://images.unsplash.com/photo-1607082349566-187342175e2f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c2hvcHBpbmd8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=800&q=60",
+      link_url: "/promocoes",
+      is_active: true,
+      created_at: new Date().toISOString(),
+      expires_at: null
+    };
+    
+    return (
+      <div className="w-full bg-gray-100 py-4 relative">
+        <div className="container mx-auto px-4">
+          <div className="relative rounded-lg overflow-hidden shadow-md">
+            {/* Banner image */}
+            <div className="relative h-56 md:h-64 lg:h-72 bg-arariboia-green/10">
+              <a 
+                href={demoBanner.link_url} 
+                className="block w-full h-full"
+              >
+                <img 
+                  src={demoBanner.image_url} 
+                  alt={demoBanner.title}
+                  className="w-full h-full object-cover object-center"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent flex items-center">
+                  <div className="text-white p-6 md:p-8 lg:p-10 max-w-lg">
+                    <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2">{demoBanner.title}</h2>
+                    <p className="text-sm md:text-base mb-4 text-white/90">{demoBanner.description}</p>
+                    <Button className="bg-white text-arariboia-green hover:bg-white/90 flex items-center gap-2">
+                      Saiba mais
+                      <ExternalLink size={16} />
+                    </Button>
+                  </div>
+                </div>
+              </a>
+            </div>
+            
+            {/* Admin edit badge */}
+            {isAdmin && (
+              <div className="absolute top-2 right-2 bg-arariboia-brown text-white text-xs px-2 py-1 rounded flex items-center gap-1">
+                <span>Apenas admin</span>
+                <a 
+                  href="/admin/banners" 
+                  className="underline flex items-center hover:text-white/90"
+                >
+                  Editar
+                </a>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
   return (
     <div className="w-full bg-gray-100 py-4 relative">
       <div className="container mx-auto px-4">
