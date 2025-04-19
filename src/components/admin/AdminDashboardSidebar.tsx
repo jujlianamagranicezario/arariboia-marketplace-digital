@@ -1,8 +1,5 @@
 
-import React from 'react';
-import { NavLink } from 'react-router-dom';
 import { 
-  LayoutDashboard,
   Users, 
   ShoppingBag, 
   Tag, 
@@ -10,76 +7,120 @@ import {
   CreditCard, 
   Bell, 
   Phone, 
-  BarChart2, 
-  Settings
+  BarChart, 
+  Settings,
+  PanelsTopLeft,
+  ImageIcon
 } from 'lucide-react';
-import { 
-  Sidebar, 
-  SidebarContent, 
-  SidebarHeader, 
-  SidebarMenu, 
-  SidebarMenuItem, 
-  SidebarMenuButton,
-  SidebarFooter
-} from '@/components/ui/sidebar';
-import { useAuth } from '@/contexts/AuthContext';
+import { Sidebar, SidebarContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarTrigger } from '@/components/ui/sidebar';
+import { Link, useLocation } from 'react-router-dom';
 
 const AdminDashboardSidebar = () => {
-  const { authState } = useAuth();
-  const { user } = authState;
-
-  const menuItems = [
-    { icon: LayoutDashboard, label: 'Visão Geral', path: '/admin' },
-    { icon: Users, label: 'Gestão de Lojistas', path: '/admin/lojistas' },
-    { icon: ShoppingBag, label: 'Gestão de Pedidos', path: '/admin/pedidos' },
-    { icon: Tag, label: 'Cupons e Promoções', path: '/admin/cupons' },
-    { icon: Package, label: 'Gestão de Produtos', path: '/admin/produtos' },
-    { icon: CreditCard, label: 'Pagamentos', path: '/admin/pagamentos' },
-    { icon: Bell, label: 'Notificações', path: '/admin/notificacoes' },
-    { icon: Phone, label: 'Gestão de WhatsApp', path: '/admin/whatsapp' },
-    { icon: BarChart2, label: 'Relatórios', path: '/admin/relatorios' },
-    { icon: Settings, label: 'Controles Master', path: '/admin/controles' },
-  ];
+  const location = useLocation();
+  
+  const isActive = (path: string) => {
+    return location.pathname === path || location.pathname.startsWith(`${path}/`);
+  };
 
   return (
     <Sidebar>
-      <SidebarHeader className="p-4 border-b">
-        <div className="flex items-center space-x-2">
-          <div className="w-10 h-10 bg-arariboia-brown rounded-full flex items-center justify-center">
-            <span className="text-white font-bold text-lg">
-              {user?.name ? user.name.charAt(0).toUpperCase() : 'A'}
-            </span>
-          </div>
-          <div>
-            <div className="font-bold text-arariboia-brown">
-              {user?.name || 'Administrador'}
-            </div>
-            <div className="text-xs text-gray-500">
-              {user?.email || 'admin@exemplo.com'}
-            </div>
-          </div>
-        </div>
-      </SidebarHeader>
-      
+      <div className="flex h-16 items-center border-b px-6">
+        <Link to="/admin" className="flex items-center gap-2 font-bold text-xl">
+          <div className="w-8 h-8 rounded-md bg-arariboia-brown flex items-center justify-center text-white">A</div>
+          <span className="text-arariboia-brown">Admin</span>
+        </Link>
+        <SidebarTrigger className="ml-auto md:hidden" />
+      </div>
       <SidebarContent>
         <SidebarMenu>
-          {menuItems.map((item) => (
-            <SidebarMenuItem key={item.path}>
-              <SidebarMenuButton asChild>
-                <NavLink 
-                  to={item.path}
-                  className={({ isActive }) => 
-                    isActive 
-                      ? "text-arariboia-brown bg-arariboia-brown/10" 
-                      : "text-gray-700 hover:text-arariboia-brown hover:bg-gray-100"
-                  }
-                >
-                  <item.icon size={20} />
-                  <span>{item.label}</span>
-                </NavLink>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild className={isActive('/admin') && !isActive('/admin/') ? 'bg-arariboia-brown/10' : ''}>
+              <Link to="/admin">
+                <PanelsTopLeft className="w-5 h-5" />
+                <span>Dashboard</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild className={isActive('/admin/lojistas') ? 'bg-arariboia-brown/10' : ''}>
+              <Link to="/admin/lojistas">
+                <Users className="w-5 h-5" />
+                <span>Lojistas</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild className={isActive('/admin/banners') ? 'bg-arariboia-brown/10' : ''}>
+              <Link to="/admin/banners">
+                <ImageIcon className="w-5 h-5" />
+                <span>Banners</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild className={isActive('/admin/pedidos') ? 'bg-arariboia-brown/10' : ''}>
+              <Link to="/admin/pedidos">
+                <ShoppingBag className="w-5 h-5" />
+                <span>Pedidos</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild className={isActive('/admin/cupons') ? 'bg-arariboia-brown/10' : ''}>
+              <Link to="/admin/cupons">
+                <Tag className="w-5 h-5" />
+                <span>Cupons</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild className={isActive('/admin/produtos') ? 'bg-arariboia-brown/10' : ''}>
+              <Link to="/admin/produtos">
+                <Package className="w-5 h-5" />
+                <span>Produtos</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild className={isActive('/admin/pagamentos') ? 'bg-arariboia-brown/10' : ''}>
+              <Link to="/admin/pagamentos">
+                <CreditCard className="w-5 h-5" />
+                <span>Pagamentos</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild className={isActive('/admin/notificacoes') ? 'bg-arariboia-brown/10' : ''}>
+              <Link to="/admin/notificacoes">
+                <Bell className="w-5 h-5" />
+                <span>Notificações</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild className={isActive('/admin/whatsapp') ? 'bg-arariboia-brown/10' : ''}>
+              <Link to="/admin/whatsapp">
+                <Phone className="w-5 h-5" />
+                <span>WhatsApp</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild className={isActive('/admin/relatorios') ? 'bg-arariboia-brown/10' : ''}>
+              <Link to="/admin/relatorios">
+                <BarChart className="w-5 h-5" />
+                <span>Relatórios</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild className={isActive('/admin/controles') ? 'bg-arariboia-brown/10' : ''}>
+              <Link to="/admin/controles">
+                <Settings className="w-5 h-5" />
+                <span>Controles Master</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarContent>
     </Sidebar>

@@ -7,6 +7,7 @@ import FeatureBanner from '@/components/FeatureBanner';
 import FeaturedStores from '@/components/FeaturedStores';
 import FeaturedProducts from '@/components/FeaturedProducts';
 import Footer from '@/components/Footer';
+import AdBanner from '@/components/AdBanner';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
@@ -17,6 +18,7 @@ const Index = () => {
       <Header />
       <CategoryBar />
       <main className="flex-grow">
+        <AdBanner />
         <FeatureBanner />
         <FeaturedStores />
         <FeaturedProducts />
