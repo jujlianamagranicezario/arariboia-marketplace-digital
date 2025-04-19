@@ -1,4 +1,3 @@
-
 export type Json =
   | string
   | number
@@ -41,6 +40,7 @@ export interface Database {
           image_url: string | null
           owner_id: string
           created_at: string
+          category: string
         }
         Insert: {
           id?: string
@@ -49,6 +49,7 @@ export interface Database {
           image_url?: string | null
           owner_id: string
           created_at?: string
+          category: string
         }
         Update: {
           id?: string
@@ -57,6 +58,7 @@ export interface Database {
           image_url?: string | null
           owner_id?: string
           created_at?: string
+          category?: string
         }
       }
       products: {
@@ -193,7 +195,6 @@ export interface Database {
   }
 }
 
-// Tipos para os dados de autenticação
 export interface UserData {
   id: string;
   email: string;

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -23,6 +22,21 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+// Add categories array at the top
+const categories = [
+  { id: "restaurants", name: "Restaurantes" },
+  { id: "grocery", name: "Mercado" },
+  { id: "pharmacy", name: "Farmácia" },
+  { id: "petshop", name: "Pet" },
+  { id: "bakery", name: "Padaria" },
+  { id: "drinks", name: "Bebidas" },
+  { id: "convenience", name: "Conveniência" },
+  { id: "express", name: "Express" },
+  { id: "clothing", name: "Roupas" },
+  { id: "electronics", name: "Eletrônicos" },
+  { id: "services", name: "Serviços" },
+];
+
 const LojasPage = () => {
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
@@ -32,7 +46,7 @@ const LojasPage = () => {
     { 
       id: 1, 
       nome: 'Pizzaria Bella Napoli', 
-      categoria: 'Restaurante', 
+      categoria: 'restaurants', 
       endereco: 'Rua das Flores, 123', 
       cidade: 'Arariboia', 
       status: 'Ativo' 
@@ -40,7 +54,7 @@ const LojasPage = () => {
     { 
       id: 2, 
       nome: 'Mercado Central', 
-      categoria: 'Supermercado', 
+      categoria: 'grocery', 
       endereco: 'Av. Principal, 500', 
       cidade: 'Arariboia', 
       status: 'Ativo' 
@@ -48,7 +62,7 @@ const LojasPage = () => {
     { 
       id: 3, 
       nome: 'Tech Store', 
-      categoria: 'Eletrônicos', 
+      categoria: 'electronics', 
       endereco: 'Shopping Centro, Loja 42', 
       cidade: 'Arariboia', 
       status: 'Ativo' 
@@ -56,7 +70,7 @@ const LojasPage = () => {
     { 
       id: 4, 
       nome: 'Modas Elegance', 
-      categoria: 'Vestuário', 
+      categoria: 'clothing', 
       endereco: 'Rua das Modas, 78', 
       cidade: 'Arariboia', 
       status: 'Ativo' 
@@ -64,7 +78,7 @@ const LojasPage = () => {
     { 
       id: 5, 
       nome: 'Salão Beleza Total', 
-      categoria: 'Serviços', 
+      categoria: 'services', 
       endereco: 'Av. das Palmeiras, 210', 
       cidade: 'Arariboia', 
       status: 'Inativo' 
@@ -72,7 +86,7 @@ const LojasPage = () => {
     { 
       id: 6, 
       nome: 'Farmácia Saúde', 
-      categoria: 'Farmácia', 
+      categoria: 'pharmacy', 
       endereco: 'Rua dos Remédios, 90', 
       cidade: 'Arariboia', 
       status: 'Ativo' 
@@ -91,6 +105,13 @@ const LojasPage = () => {
       title: "Loja removida",
       description: `A loja #${id} foi removida com sucesso`,
       variant: "destructive",
+    });
+  };
+
+  const handleCategoryChange = (id: number, category: string) => {
+    toast({
+      title: "Categoria atualizada",
+      description: `A categoria da loja #${id} foi atualizada para ${category}`,
     });
   };
 
@@ -159,7 +180,19 @@ const LojasPage = () => {
                   <TableRow key={loja.id}>
                     <TableCell>#{loja.id}</TableCell>
                     <TableCell>{loja.nome}</TableCell>
-                    <TableCell>{loja.categoria}</TableCell>
+                    <TableCell>
+                      <select 
+                        className="p-2 rounded border"
+                        value={loja.categoria}
+                        onChange={(e) => handleCategoryChange(loja.id, e.target.value)}
+                      >
+                        {categories.map(cat => (
+                          <option key={cat.id} value={cat.id}>
+                            {cat.name}
+                          </option>
+                        ))}
+                      </select>
+                    </TableCell>
                     <TableCell>{loja.endereco}</TableCell>
                     <TableCell>{loja.cidade}</TableCell>
                     <TableCell>

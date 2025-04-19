@@ -1,24 +1,31 @@
 
 import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useNavigate } from "react-router-dom";
 
 const categories = [
-  { id: "all", name: "Todos" },
-  { id: "restaurants", name: "Restaurantes" },
-  { id: "grocery", name: "Mercado" },
-  { id: "pharmacy", name: "Farmácia" },
-  { id: "petshop", name: "Pet" },
-  { id: "bakery", name: "Padaria" },
-  { id: "drinks", name: "Bebidas" },
-  { id: "convenience", name: "Conveniência" },
-  { id: "express", name: "Express" },
-  { id: "clothing", name: "Roupas" },
-  { id: "electronics", name: "Eletrônicos" },
-  { id: "services", name: "Serviços" },
+  { id: "all", name: "Todos", path: "/" },
+  { id: "restaurants", name: "Restaurantes", path: "/restaurantes" },
+  { id: "grocery", name: "Mercado", path: "/mercado" },
+  { id: "pharmacy", name: "Farmácia", path: "/farmacia" },
+  { id: "petshop", name: "Pet", path: "/pet" },
+  { id: "bakery", name: "Padaria", path: "/padaria" },
+  { id: "drinks", name: "Bebidas", path: "/bebidas" },
+  { id: "convenience", name: "Conveniência", path: "/conveniencia" },
+  { id: "express", name: "Express", path: "/express" },
+  { id: "clothing", name: "Roupas", path: "/roupas" },
+  { id: "electronics", name: "Eletrônicos", path: "/eletronicos" },
+  { id: "services", name: "Serviços", path: "/servicos" },
 ];
 
 const CategoryBar = () => {
   const [activeCategory, setActiveCategory] = useState("all");
+  const navigate = useNavigate();
+
+  const handleCategoryClick = (categoryId: string, path: string) => {
+    setActiveCategory(categoryId);
+    navigate(path);
+  };
 
   return (
     <div className="bg-white shadow-sm">
@@ -31,7 +38,7 @@ const CategoryBar = () => {
                 className={`category-button ${
                   activeCategory === category.id ? "active" : ""
                 }`}
-                onClick={() => setActiveCategory(category.id)}
+                onClick={() => handleCategoryClick(category.id, category.path)}
               >
                 {category.name}
               </button>
