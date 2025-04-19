@@ -3,14 +3,23 @@ import { useParams } from 'react-router-dom';
 import { useSupabaseQuery } from '@/hooks/useSupabase';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MapPin, ExternalLink, Phone } from "lucide-react";
+import { MapPin, ExternalLink } from "lucide-react";
+
+// Define the Store type
+interface Store {
+  id: string;
+  name: string;
+  description: string;
+  image_url: string | null;
+  category: string;
+}
 
 const StoreList = () => {
   const { category } = useParams();
   const categoryTitle = category?.charAt(0).toUpperCase() + category?.slice(1);
 
   // Fetch stores filtered by category
-  const { data: stores, isLoading } = useSupabaseQuery(
+  const { data: stores, isLoading } = useSupabaseQuery<Store[]>(
     'stores',
     ['stores', category],
     {
@@ -36,7 +45,7 @@ const StoreList = () => {
       <h1 className="text-3xl font-bold text-arariboia-brown mb-6">{categoryTitle}</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {stores?.map((store) => (
+        {stores && stores.map((store) => (
           <Card key={store.id} className="overflow-hidden">
             <CardHeader className="relative">
               {store.image_url ? (
