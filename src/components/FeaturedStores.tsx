@@ -2,13 +2,14 @@
 import { StarIcon } from "lucide-react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 
 const stores = [
   {
     id: 1,
-    name: "Restaurante da Maria",
+    name: "Sabor da Serra Restaurante",
     image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
-    category: "Restaurante",
+    category: "restaurantes",
     rating: 4.8,
     deliveryTime: "30-45",
     deliveryFee: "R$ 5,99",
@@ -16,9 +17,9 @@ const stores = [
   },
   {
     id: 2,
-    name: "Mercado São João",
+    name: "Mercado Bom Preço Tradicional",
     image: "https://images.unsplash.com/photo-1604719312566-8912e9c8a213?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
-    category: "Mercado",
+    category: "mercado",
     rating: 4.5,
     deliveryTime: "45-60",
     deliveryFee: "R$ 7,99",
@@ -26,9 +27,9 @@ const stores = [
   },
   {
     id: 3,
-    name: "Padaria Delícia",
+    name: "Padaria Sabor do Pão",
     image: "https://images.unsplash.com/photo-1517433367423-c7e5b0f35086?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
-    category: "Padaria",
+    category: "padaria",
     rating: 4.7,
     deliveryTime: "25-40",
     deliveryFee: "R$ 4,99",
@@ -36,9 +37,9 @@ const stores = [
   },
   {
     id: 4,
-    name: "Farmácia Saúde",
+    name: "FarmaVida Completa",
     image: "https://images.unsplash.com/photo-1576602976047-174e57a47881?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80",
-    category: "Farmácia",
+    category: "farmacia",
     rating: 4.6,
     deliveryTime: "15-30",
     deliveryFee: "R$ 3,99",
@@ -47,6 +48,12 @@ const stores = [
 ];
 
 const FeaturedStores = () => {
+  const navigate = useNavigate();
+
+  const handleStoreClick = (categoryName: string) => {
+    navigate(`/${categoryName}`);
+  };
+
   return (
     <div className="py-8">
       <div className="container mx-auto px-4">
@@ -59,7 +66,11 @@ const FeaturedStores = () => {
         
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {stores.map((store) => (
-            <Card key={store.id} className="h-full product-card">
+            <Card 
+              key={store.id} 
+              className="h-full product-card cursor-pointer" 
+              onClick={() => handleStoreClick(store.category)}
+            >
               <div className="relative h-36 overflow-hidden">
                 <img
                   src={store.image}
