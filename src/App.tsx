@@ -131,6 +131,9 @@ const App = () => (
             <Route path="/eletronicos" element={<StoreList />} />
             <Route path="/servicos" element={<StoreList />} />
 
+            {/* Página detalhada da loja modelo restaurantes */}
+            <Route path="/store/1" element={<SaborDaSerraRestaurante />} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

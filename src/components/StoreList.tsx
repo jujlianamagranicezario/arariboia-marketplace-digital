@@ -1,11 +1,9 @@
-
 import { useParams, Link } from 'react-router-dom';
 import { useSupabaseQuery } from '@/hooks/useSupabase';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { MapPin, ExternalLink } from "lucide-react";
 
-// Define the Store type
 interface Store {
   id: string;
   name: string;
@@ -17,7 +15,6 @@ interface Store {
   password?: string;
 }
 
-// Sample stores data with proper images
 const sampleStores: Record<string, Store[]> = {
   restaurantes: [
     {
@@ -245,7 +242,6 @@ const StoreList = () => {
   const { category } = useParams<{ category: string }>();
   const categoryTitle = category ? category.charAt(0).toUpperCase() + category.slice(1) : "";
 
-  // Use sample data for now
   const stores = category ? sampleStores[category] || [] : [];
   const isLoading = false;
 
@@ -291,7 +287,13 @@ const StoreList = () => {
                   variant="default"
                   size="sm"
                   className="bg-arariboia-brown hover:bg-arariboia-brown/90"
-                  onClick={() => window.location.href = `/store/${store.id}`}
+                  onClick={() => {
+                    if (store.id === "1" && store.category === "restaurantes") {
+                      window.location.href = "/store/1";
+                    } else {
+                      window.location.href = `/store/${store.id}`;
+                    }
+                  }}
                 >
                   <span>Ver loja</span>
                   <ExternalLink size={16} className="ml-2" />
