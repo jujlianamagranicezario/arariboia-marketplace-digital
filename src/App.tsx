@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,6 +10,33 @@ import RoleBasedRoute from "@/components/auth/RoleBasedRoute";
 import StoreList from "@/components/StoreList";
 import SaborDaSerraRestaurante from "./pages/store/SaborDaSerraRestaurante";
 import SaborDaSerraDashboard from "./pages/store/SaborDaSerraDashboard";
+
+// Import all pages for routes
+import Index from "./pages/Index";
+import LoginPage from "./pages/auth/LoginPage";
+import SignUpPage from "./pages/auth/SignUpPage";
+import ResetPasswordPage from "./pages/auth/ResetPasswordPage";
+import UpdatePasswordPage from "./pages/auth/UpdatePasswordPage";
+import UnauthorizedPage from "./pages/auth/UnauthorizedPage";
+import NotFound from "./pages/NotFound";
+
+// Dashboard pages
+import DashboardLayout from "./components/DashboardLayout";
+import Dashboard from "./pages/Dashboard";
+import ProdutosPage from "./pages/dashboard/ProdutosPage";
+import PedidosPage from "./pages/dashboard/PedidosPage";
+import LojasPage from "./pages/dashboard/LojasPage";
+
+// User dashboard pages
+import UserDashboardLayout from "./components/user/UserDashboardLayout";
+import UserDashboardIndex from "./pages/user/UserDashboardIndex";
+import UserPedidosPage from "./pages/user/UserPedidosPage";
+
+// Admin dashboard pages
+import AdminDashboardLayout from "./components/admin/AdminDashboardLayout";
+import AdminDashboardIndex from "./pages/admin/AdminDashboardIndex";
+import LojistasPage from "./pages/admin/LojistasPage";
+import BannersPage from "./pages/admin/BannersPage";
 
 const queryClient = new QueryClient();
 
